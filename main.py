@@ -136,7 +136,6 @@ class Car(ABC):
         self.pos = pygame.Vector2(490, 180)
         self.length = 20
         self.width = 10
-        self.shoLines = False
         self.lines = []
         self.sprite = RED_CAR
         self.speed = 5
@@ -148,9 +147,10 @@ class Car(ABC):
         self.setup()
 
     def draw(self):
-        #for line in self.lines:
-        #    line.draw()
-        #    pygame.draw.circle(SCREEN, BLUE, (int(line.end.x), int(line.end.y)), 3)
+        if not self.crashed:
+            for line in self.lines:
+                line.draw()
+                pygame.draw.circle(SCREEN, BLUE, (int(line.end.x), int(line.end.y)), 3)
         rotated_sprite = pygame.transform.rotate(self.sprite, math.degrees(2*math.pi - self.rotation))
         sprite_rect = rotated_sprite.get_rect()
         sprite_rect.center = self.pos
@@ -361,10 +361,6 @@ def run_neat(config_file):
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
                                 neat.DefaultSpeciesSet, neat.DefaultStagnation, config_file)
     p = neat.Population(config)
-
-    #p.add_reporter(neat.StdOutReporter(True))
-    #stats = neat.StatisticsReporter()
-    #p.add_reporter(stats)
 
     winner = p.run(find_fitness, 50)
 

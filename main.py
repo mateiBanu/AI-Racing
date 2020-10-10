@@ -276,7 +276,7 @@ class LearningCar(Car):
 
         global total
         total -= 1
-        print(total)
+        print("Cars remaining: " + str(total))
 
     def end_move(self, dt):
         self.genome.fitness += self.avg_speed**2 * dt / 10000
